@@ -1,22 +1,15 @@
 async function fetchPokemonData(offset) {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=10`);
     const data = await response.json();
-    // console.log(data);   
-
     return data.results;
-
 }
-
-
 
 const btnFetche = document.querySelector('.title button')
 const section = document.querySelector('.pokemon')
 
 btnFetche.addEventListener('click', async () => {
     let number = Math.floor(Math.random() * (895)) + 1
-    console.log('clicou');
-    const pokemonList = await fetchPokemonData(number)
-    console.log(pokemonList);
+    const pokemonList = await fetchPokemonData(number)    
 
     for (i = 0; i < pokemonList.length; i++) {
         const divPokemons = `
@@ -26,19 +19,13 @@ btnFetche.addEventListener('click', async () => {
    </div>   `
         section.innerHTML += divPokemons
     }
-   let  divs = document.querySelectorAll('.pokemon div img')
-    console.log(divs);
-
-    divs.forEach(image =>{
-        image.addEventListener('click', ()=>{
+    let divs = document.querySelectorAll('.pokemon div img')
+    divs.forEach(image => {
+        image.addEventListener('click', () => {
             animateImage(image)
         })
     })
-
-
 })
-
-
 
 //Animations
 const h1 = document.querySelector('.title h1')
@@ -47,18 +34,10 @@ const pikachu = document.querySelector('.pikachu')
 const pokedex = document.querySelector('.pokedex')
 const pokedexBtn = document.querySelector('.pokedex button')
 const fetch1 = document.querySelector('.title button')
-console.log(pokedexBtn);
 const warning = document.querySelector('.warning')
-console.log(warning);
 const nani = new Audio('./audio/nani.mp3')
 const open = new Audio('./audio/open.mp3')
 const tele = new Audio('./audio/tele.mp3')
-console.log(h1);
-console.log(pokeball);
-
-const message = document.createElement('div');
-message.className = 'message';
-message.textContent = 'Click to catch Pikachu';
 
 const text = new TimelineLite();
 text
@@ -71,14 +50,12 @@ text
 pokedexBtn.addEventListener('click', () => {
     text
 
-
         .to(pokedex, {
             duration: 0,
             onComplete: () => {
                 pokedex.classList.add('hiden')
             }
         })
-
         .to(pokeball, {
             x: '20vw',
             duration: 1.5,
@@ -90,7 +67,6 @@ pokedexBtn.addEventListener('click', () => {
             ease: 'power2.out'
         })
 })
-
 
 const appear = new TimelineLite();
 pokedexBtn.addEventListener('click', () => {
@@ -120,22 +96,23 @@ pokedexBtn.addEventListener('click', () => {
             repeat: 0,
             ease: 'linear'
         })
+})
 
+const timeline = new TimelineLite();
+let animations = false
+pokeball.addEventListener('click', () => {
+    if (!animations) {
+        animations = true
 
-    const timeline = new TimelineLite();
-    timeline
+        timeline
 
-    pokeball.addEventListener('click', () => {
-        console.log(pikachu);
-        timeline            
-
-        .to(warning, {
-            duration: 0,
-            ease: 'power2.out',
-            onComplete: ()=>{
-                warning.classList.add('hiden')
-            }
-        })
+            .to(warning, {
+                duration: 0,
+                ease: 'power2.out',
+                onComplete: () => {
+                    warning.classList.add('hiden')
+                }
+            })
             .to(pikachu, {
                 duration: .5,
                 ease: 'power2.out',
@@ -183,27 +160,26 @@ pokedexBtn.addEventListener('click', () => {
                 }
             })
 
-            .to(fetch1,{
-                duration:0, 
-                onComplete: ()=>{
+            .to(fetch1, {
+                duration: 0,
+                onComplete: () => {
                     fetch1.classList.remove('hiden')
                 }
-            } )
+            })
 
             .to(fetch1, {
                 scale: 1.5,
                 duration: 1,
                 ease: 'power2.out',
                 yoyo: true,
-                repeat: 3,                
+                repeat: 3,
             })
 
-    })
+    }
 })
 
-//aumentar a imagem
-
-function animateImage (image){
+//Increase the image`s size
+function animateImage(image) {
     gsap.to(image, {
         x: '50%',
         y: '50%',
@@ -212,12 +188,12 @@ function animateImage (image){
         ease: 'power2.out',
         onComplete: () => {
             gsap.to(image, {
-                scale: 1,  
-                x: 0, 
+                scale: 1,
+                x: 0,
                 y: 0,
                 duration: 1,
                 ease: 'power2.in'
             });
         }
-      });
-    }
+    });
+}
